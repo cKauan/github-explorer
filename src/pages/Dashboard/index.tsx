@@ -20,6 +20,7 @@ export default function Dashboard(): JSX.Element {
 		event: FormEvent<HTMLFormElement>,
 	): Promise<void> {
 		event.preventDefault();
+		setRepositoryInput('');
 		const { data } = await Api.get<Repository>(`repos/${repositoryInput}`);
 		setRepositories([...repositories, data]);
 	}
@@ -37,17 +38,34 @@ export default function Dashboard(): JSX.Element {
 				<button type="submit">Pesquisar</button>
 			</Form>
 			<Repositories>
-				<a href="/">
+				<a
+					target="_blank"
+					rel="noreferrer"
+					href="https://github.com/ckauan"
+				>
 					<img
 						src="https://github.com/ckauan.png"
 						alt="Carlos Kauãn"
 					/>
 					<div>
-						<strong>ckauan/knex-crud</strong>
-						<p>CRUD Postgres feito com knex.js</p>
+						<strong>ckauan</strong>
+						<p>
+							Back-end student 💻 NodeJS and Typescript |
+							Self-taught
+						</p>
 					</div>
 					<FiChevronRight size={24} color="#cbcdb6" />
 				</a>
+				{repositories.map(({ full_name, description, owner }) => (
+					<a href="/" key={full_name}>
+						<img src={owner.avatar_url} alt={owner.login} />
+						<div>
+							<strong>{full_name}</strong>
+							<p>{description}</p>
+						</div>
+						<FiChevronRight size={24} color="#cbcdb6" />
+					</a>
+				))}
 			</Repositories>
 		</>
 	);
