@@ -1,5 +1,6 @@
 import React from 'react';
+import { Title } from './styles';
 
 export default function Dashboard(): JSX.Element {
-	return <h1>Hello world!</h1>;
+	return <Title>Hello world</Title>;
 }
