@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import logoImg from '../../assets/github-logo.svg';
-import { Title, Form, Repositories } from './styles';
+import { Title, Form, Repositories, Error } from './styles';
 import Api from '../../services/api';
 
 interface Repository {
@@ -14,21 +14,33 @@ interface Repository {
 }
 export default function Dashboard(): JSX.Element {
 	const [repositoryInput, setRepositoryInput] = useState('');
+	const [inputError, setInputError] = useState('');
 	const [repositories, setRepositories] = useState<Repository[]>([]);
 
 	async function handleAddRepository(
 		event: FormEvent<HTMLFormElement>,
 	): Promise<void> {
 		event.preventDefault();
-		setRepositoryInput('');
-		const { data } = await Api.get<Repository>(`repos/${repositoryInput}`);
-		setRepositories([...repositories, data]);
+		if (!repositoryInput) {
+			setInputError('Digite autor/nome do repositório');
+			return;
+		}
+		try {
+			const { data } = await Api.get<Repository>(
+				`repos/${repositoryInput}`,
+			);
+			setRepositoryInput('');
+			setInputError('');
+			setRepositories([...repositories, data]);
+		} catch (error) {
+			setInputError('Erro na busca por esse repositório');
+		}
 	}
 	return (
 		<>
 			<img src={logoImg} alt="Github Explorer" />
 			<Title>Explore repositórios no Github.</Title>
-			<Form onSubmit={handleAddRepository}>
+			<Form hasError={!!inputError} onSubmit={handleAddRepository}>
 				<input
 					type="text"
 					value={repositoryInput}
@@ -37,6 +49,7 @@ export default function Dashboard(): JSX.Element {
 				/>
 				<button type="submit">Pesquisar</button>
 			</Form>
+			{inputError && <Error>{inputError}</Error>}
 			<Repositories>
 				<a
 					target="_blank"
@@ -48,7 +61,7 @@ export default function Dashboard(): JSX.Element {
 						alt="Carlos Kauãn"
 					/>
 					<div>
-						<strong>ckauan</strong>
+						<strong>ckauan/ckauan</strong>
 						<p>
 							Back-end student 💻 NodeJS and Typescript |
 							Self-taught
