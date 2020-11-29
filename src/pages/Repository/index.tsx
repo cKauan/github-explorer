@@ -1,5 +1,12 @@
 import React from 'react';
+import { useRouteMatch } from 'react-router-dom';
 
+interface Params {
+	repository: string;
+}
 export default function Repository(): JSX.Element {
-	return <h1>Hello world from Repository!</h1>;
+	const {
+		params: { repository },
+	} = useRouteMatch<Params>();
+	return <h1>{repository}</h1>;
 }

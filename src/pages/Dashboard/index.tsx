@@ -1,5 +1,6 @@
 import React, { FormEvent, useState, useEffect } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import logoImg from '../../assets/github-logo.svg';
 import { Title, Form, Repositories, Error } from './styles';
 import Api from '../../services/api';
@@ -82,14 +83,14 @@ export default function Dashboard(): JSX.Element {
 					<FiChevronRight size={24} color="#cbcdb6" />
 				</a>
 				{repositories.map(({ full_name, description, owner }) => (
-					<a href="/" key={full_name}>
+					<Link to={`/repository/${full_name}`} key={full_name}>
 						<img src={owner.avatar_url} alt={owner.login} />
 						<div>
 							<strong>{full_name}</strong>
 							<p>{description}</p>
 						</div>
 						<FiChevronRight size={24} color="#cbcdb6" />
-					</a>
+					</Link>
 				))}
 			</Repositories>
 		</>
