@@ -17,6 +17,9 @@ App para exploração de repositórios Github | <a href="https://github.com/rock
 * [Styled Components](https://styled-components.com)
 * [Axios](https://github.com/axios/axios)
 
+## 📱 Screenshot
+
+<img src="https://i.imgur.com/yoIxkjc.png" alt="Screenshot" />
 
 ## Contato
 
